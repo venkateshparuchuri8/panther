@@ -1,0 +1,146 @@
+.actions-wrapper {
+  background-color: map-get($colors, white);
+  border-radius: 3px;
+  // padding: 15px 30px;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 2em;
+}
+
+.actions-wrapper.in-progress {
+  border: 1px solid color(primary);
+}
+
+.actions-wrapper-content {
+  padding: 10px 30px;
+}
+
+.actions-wrapper-header {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid lighten(map-get($colors, lightgray), 15%);
+  padding-bottom: 0.5em;
+  padding: 12px 30px;
+}
+
+.actions-wrapper-question {
+  font-weight: 500;
+  border-bottom: 1px solid lighten(map-get($colors,lightgray), 15%);
+  padding-bottom: 0.5em;
+  margin-bottom: 1em;
+  text-align: left;
+
+}
+
+.actions-wrapper-header-actions {
+  .report-bug {
+    opacity: 0.4;
+    margin-right: 1em;
+  }
+  span {
+    cursor: pointer;
+  }
+
+  svg {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+.actions-wrapper-answer {
+  textarea {
+    border: 0;
+    padding: 0;
+    height: 80px;
+  }
+}
+
+.actions-wrapper-answer-list {
+  li {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid lighten(map-get($colors, lightgray), 15%);
+    font-size: 12px;
+    cursor: pointer;
+    &:before {
+      content: '';
+      display: inline-block;
+      margin-right: 0.5em;
+      width: 8px;
+      height: 8px;
+      border-radius: 10px;
+      border: 1px solid map-get($colors, navy);
+    }
+  }
+
+  li.is-selected {
+    color: color(primary);
+    &:before {
+      background-color: color(primary);
+      border-color: color(primary);
+    }
+  }
+
+  li.is-wrong {
+    color: color(secondary);
+    background-color: color(secondary-light-57);
+    &:before {
+      border-color: color(secondary);
+    }
+  }
+
+  li.is-tried {
+    opacity: 0.4;
+  }
+}
+
+.actions-wrapper-note {
+  color: color(primary);
+  padding: 0.5em 30px;
+  background-color: color(primary-light-50);
+  font-size: 12px;
+  p {
+    margin-bottom: 0;
+  }
+  &.wrong {
+    p {
+      color: red;
+    }
+  }
+}
+
+.actions-wrapper-overlay {
+  background-color: map-get($colors, navy);
+  opacity: 0.9;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  text-align: center;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .take-action {
+    cursor: pointer;
+  }
+  p {
+    font-weight: 500;
+  }
+  svg path {
+    fill: map-get($colors, white);
+  }
+}
+
+.actions-wrapper-overlay.is-completed {
+  border-bottom: 8px solid color(primary);
+}
+
+.actions-wrapper-submit {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+

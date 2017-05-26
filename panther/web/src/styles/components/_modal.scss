@@ -1,0 +1,51 @@
+.modal-dialog.auto{
+  height:auto;
+  padding-top: 3em;
+}
+.modal-dialog {
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 0;
+  margin-bottom: 0;
+  height: 100%;
+}
+
+.modal-content {
+  border: 0;
+  border-radius: 0.1rem;
+  .modal-body {
+    p {
+      font-size: 16px;
+      line-height: 18px;
+    }
+  }
+}
+
+.modal-title {
+  font-size: 22px;
+  font-weight: normal;
+}
+
+.modal-backdrop {
+  background-color: darken(map-get($colors, navy), 30%);
+}
+
+.modal.fade .modal-dialog {
+  -webkit-transform: translate(0, 0);
+  -ms-transform: translate(0, 0);
+  transform: translate(0, 0);
+ }
+
+button.close {
+  background-image: url('../assets/icon-close.svg');
+  background-repeat: no-repeat;
+  width: 26px;
+  height: 26px;
+
+  span {
+    visibility: hidden;
+  }
+
+}

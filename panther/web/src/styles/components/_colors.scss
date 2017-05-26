@@ -1,0 +1,36 @@
+$c-primary:       #14C578;
+$c-secondary:     #BF0D3E;
+$c-navy:          #041E42;
+$c-darkgray:      #63666A;
+$c-lightgray:     #C8C9C7;
+$c-white:         #FFFFFF;
+$c-bg:            #F8F8FA;
+
+$colors: (
+  success:       #14C578,
+  error:         #ff4242,
+  warning:       #ff9a44,  
+  primary:       #14C578,
+  secondary:     #BF0D3E,
+  navy:          #041E42,
+  darkgray:      #63666A,
+  lightgray:     #C8C9C7,
+  white:         #FFFFFF,
+  bg:            #F8F8FA,
+  primary-light-50: lighten(#14C578, 50%),
+  primary-light-20: lighten(#14C578, 20%),
+  primary-dark-10: darken(#14C578, 10%),
+  secondary-light-57: lighten(#BF0D3E, 57%),
+  primary-light-55: lighten(#14C578, 55%)
+);
+
+:root {
+  // each item in color map
+  @each $name, $color in $colors {
+    --color-#{$name}: $color;
+  }
+}
+
+@function color($color-name) {
+  @return var(--color-#{$color-name});
+}

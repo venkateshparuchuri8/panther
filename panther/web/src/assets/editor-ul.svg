@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="14px" viewBox="0 0 16 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 41 (35326) - http://www.bohemiancoding.com/sketch -->
+    <title>Bulleted List</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Bulleted-List" fill="#000000">
+            <g id="Page-1">
+                <g>
+                    <g id="Bulleted-List">
+                        <g id="noun_480983_cc-copy">
+                            <rect id="Rectangle-path" x="4.4" y="0.8" width="11.6" height="1.2"></rect>
+                            <rect id="Rectangle-path" x="4.4" y="6.4" width="11.6" height="1.2"></rect>
+                            <rect id="Rectangle-path" x="4.4" y="12" width="11.6" height="1.2"></rect>
+                            <circle id="Oval" cx="1.4" cy="1.4" r="1.4"></circle>
+                            <ellipse id="Oval" cx="1.4" cy="7" rx="1.4" ry="1.4"></ellipse>
+                            <ellipse id="Oval" cx="1.4" cy="12.6" rx="1.4" ry="1.4"></ellipse>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,115 @@
+.form-control {
+  border-radius: 0;
+  border-color: rgba(4, 32, 71, 0.1);
+  background-color: transparent;
+  font-size: 14px;
+  font-family: inherit;
+
+  &:focus {
+    background-color: transparent;
+    border-color: rgba(4, 32, 71, 0.1);
+  }
+}
+
+.form-check-label {
+  padding-left: 0.1rem;
+}
+
+// CUSTOM RADIO BUTTON
+input[type="radio"] {
+  display: none;
+
+  +span {
+    font-size: 12px;
+    margin-right: 10px;
+  }
+
+  + span::before {
+  content: '';
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.10em;
+  border-radius: 1em;
+  border: 0.125em solid #fff;
+  box-shadow: 0 0 0 0.15em rgba(0, 0, 0, 0.17);
+  margin-right: 0.75em;
+  transition: 0.5s ease all;
+  }
+
+  &:checked + span::before {
+    background: color(primary);
+    box-shadow: 0 0 0 0.15em color(primary);
+  }
+
+  &:checked + span {
+    color: color(primary);
+  }
+}
+
+//CUSTOM CHECKBOX
+input[type="checkbox"] {
+  display: none;
+
+  +span {
+    display: inline-block;
+  }
+
+  +span::before {
+    content: '';
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.10em;
+    border-radius: 2px;
+    border: 0.125em solid #fff;
+    box-shadow: 0 0 0 0.15em rgba(0, 0, 0, 0.17);
+    margin-right: 0.75em;
+    transition: 0.5s ease all;
+  }
+
+  &:checked + span::before {
+    content: '✔';
+    color: color(primary);
+    line-height: 1em;
+    box-shadow: 0 0 0 0.15em color(primary);
+  }
+}
+
+select.form-control-sm.form-control {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  height: 35px !important;
+  border-radius: 0px !important;
+  background: url('../assets/icon-chevron.svg') no-repeat;
+  background-position: 95%;
+}
+
+.filter-form-group {
+  display: flex;
+  align-items: center;
+}
+
+.form-group {
+  label {
+    font-size: 16px;
+  }
+  button {
+    height: 40px;
+    font-size: 16px;
+    line-height: 18px;
+    margin-right: 20px;
+  }
+}
+
+//CUSTOM SEARCH BOX
+.searchbox {
+  display: flex;
+  align-items: center;
+
+  input[type="text"] {
+    border: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  }
+}
+

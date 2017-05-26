@@ -1,0 +1,85 @@
+.user-info-item {
+  border-bottom: 1px solid lighten(map-get($colors, lightgray), 10%);
+  padding-bottom: 5px;
+  margin-bottom: 0px;
+  display: flex;
+  font-size: 16px;
+  height: 44px;
+  padding: 10px 0px;
+}
+
+.user-info-item-label {
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: 20%;
+}
+
+.Collapsible {
+  border-bottom: 1px solid lighten(map-get($colors, lightgray), 10%);
+  padding-bottom: 5px;
+  margin-bottom: 0px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.Collapsible__contentInner  {
+  font-size: 12px;
+  font-weight: normal;
+}
+
+.Collapsible__trigger {
+  display: block;
+  font-size: 18px;
+  line-height: 22px;
+  padding: 10px 0px;
+}
+
+.Collapsible__trigger.is-closed {
+  &:after {
+    content: '';
+    width: 16px;
+    height: 9px;
+    background:transparent url('../assets/arrow-down.svg') no-repeat;
+    float: right;
+  }
+}
+
+.Collapsible__trigger.is-open {
+  &:after {
+    content: '';
+    width: 16px;
+    height: 9px;
+    background:transparent url('../assets/arrow-up.svg') no-repeat;
+    float: right;
+  }
+}
+
+.course-info-list-classes {
+  border-left: 1px solid color(primary);
+  div {
+    font-size: 12px;
+    span {
+      margin-bottom: 0;
+    }
+
+    &:last-child {
+      border-bottom: 0;
+    }
+  }
+}
+
+.opacity-4 {
+  opacity: 0.4;
+}
+
+.course-info-list-lessons {
+  margin-top: 1em;
+  li {
+    margin-bottom: 0.5em;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}

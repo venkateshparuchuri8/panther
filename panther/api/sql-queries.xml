@@ -1,0 +1,615 @@
+<!DOCTYPE sql-queries [
+    <!ELEMENT sql-queries (sql-query)*>
+    <!ELEMENT sql-query (#PCDATA)>
+    <!ATTLIST sql-query id CDATA #REQUIRED>
+]>
+<sql-queries>
+    <sql-query id="course_list">
+        <![CDATA[select co.*,
+        (select count(cl.id) from class cl where cl.course_id = co.id) as class_count,
+        (select count(ls.id) from lesson ls
+        inner join class cls on cls.id = ls.class_id
+        where cls.course_id = co.id) as lesson_count,
+        (select count(ts.id) from tasks ts
+        inner join lesson ls on ls.id=ts.lesson_id
+        inner join class cll on cll.id = ls.class_id
+        where cll.course_id = co.id) as task_count
+        from course co where co.organization_id = ?]]>
+    </sql-query>
+    <sql-query id="createCourseList">
+        <![CDATA[select co.*, (select count(cl.id) from class cl where cl.course_id = co.id) as class_count,
+       (select count(ls.id) from lesson ls inner join class cls on cls.id = ls.class_id
+       where cls.course_id = co.id) as lesson_count,(select count(ts.id) from tasks ts
+       inner join lesson ls on ls.id=ts.lesson_id
+       inner join class cll on cll.id = ls.class_id
+       where cll.course_id = co.id) as task_count from course co where co.id = ?]]>
+    </sql-query>
+    <sql-query id="course_ribbons_list">
+        <![CDATA[select * from course_ribbons where course_id = ?]]>
+    </sql-query>
+    <sql-query id="getClassDetails">
+        <![CDATA[select * from class where id = ?]]>
+    </sql-query>
+    <sql-query id="getLessonDetails">
+        <![CDATA[select ls.*, (select count(id)  from actions where lesson_id = ?) as actions_count,(select count(id)  from quiz where lesson_id = ?) as quiz_count,
+(select count(id)  from reflection where lesson_id = ?) as reflection_count
+from lesson ls where ls.id = ?]]>
+    </sql-query>
+    <sql-query id="createNewCourse">
+        <![CDATA[INSERT INTO course SET ?]]>
+    </sql-query>
+    <sql-query id="createNewTask">
+        <![CDATA[INSERT INTO tasks(title, description, points, material_id, lesson_id, sort_order, created_date,
+        created_user,modified_date, modified_user)
+        VALUES (?, ?, ?, ?, ?, ?, now(), ?, now(), ?)]]>
+    </sql-query>
+    <sql-query id="createTaskForMaterials">
+        <![CDATA[INSERT INTO tasks (`title`, `description`,`points`, `material_id`, `lesson_id`,`sort_order`, `created_date`, `created_user`, `modified_date`,`modified_user`)
+        VALUES (? , ? , 100, ?, ?, ?,now(), ?, now(), ?)]]>
+    </sql-query>
+    <sql-query id="createTasksQuiz">
+        <![CDATA[ INSERT INTO tasks (title, description, points, material_id,lesson_id, created_date, created_user, modified_date, modified_user)
+        VALUES (?, ?, ?, ?, ?, now(), ?, now(), ?)]]>
+    </sql-query>
+    <sql-query id="createNewAction">
+        <![CDATA[INSERT INTO actions SET ?]]>
+    </sql-query>
+    <sql-query id="courseRibbonsInsert">
+        <![CDATA[INSERT INTO course_ribbons SET ?]]>
+    </sql-query>
+    <sql-query id="editCourseDetails">
+        <![CDATA[select * from course where id=?]]>
+    </sql-query>
+    <sql-query id="getAllActions">
+        <![CDATA[select * from actions where lesson_id=?]]>
+    </sql-query>
+    <sql-query id="getAllTasks">
+        <![CDATA[select ts.*, mt.type as material_type from tasks ts inner join material mt on mt.id = ts.material_id where lesson_id=?]]>
+    </sql-query>
+    <sql-query id="updateCourse">
+        <![CDATA[UPDATE course SET  name =  ?, description = ?, is_supplemental = ?,
+          modified_date = now(), modified_user = ? WHERE id = ?]]>
+    </sql-query>
+    <sql-query id="updateAction">
+        <![CDATA[UPDATE actions SET  description = ?,
+          modified_date = ?, modified_user = ? WHERE id = ?]]>
+    </sql-query>
+    <sql-query id="updateTask">
+        <![CDATA[UPDATE tasks SET  title = ?,description = ?, modified_date = now(), modified_user = ? WHERE id = ?]]>
+    </sql-query>
+    <sql-query id="createQuiz">
+        <![CDATA[INSERT INTO quiz (lesson_id) VALUES (?)]]>
+    </sql-query>
+    <sql-query id="createQuizQuestions">
+        <![CDATA[INSERT INTO quiz_questions (`quiz_id`, `question`, `answer`, `options`)VALUES (?, ?, ?, ?);]]>
+    </sql-query>
+    <sql-query id="editQuizQuestions">
+        <![CDATA[UPDATE quiz_questions SET question=?, answer = ? ,options= ? WHERE id=?]]>
+    </sql-query>
+
+    <sql-query id="createReflection">
+        <![CDATA[ INSERT INTO reflection (`question`,`lesson_id`)VALUES(?, ?)]]>
+    </sql-query>
+    <sql-query id="classList">
+        <![CDATA[select cl.*,(select count(le.id) from lesson le where le.class_id=cl.id) as lesson_count
+ from class cl where cl.course_id=? ]]>
+    </sql-query>
+    <sql-query id="lessonList">
+        <![CDATA[select * from lesson where class_id = ? ]]>
+    </sql-query>
+    <sql-query id="courseSpecificclassList">
+        <![CDATA[select cl.id as class_id, cl.name as class_name,cl.description as class_description,
+        cl.is_published as class_published_status,cl.hero_image as class_image,
+        cl.video_url as class_video, ifnull(uc.status, 'locked') as class_status,
+        cl.course_id as class_course_id, cr.ribbon_url as class_ribbon_url
+        from class cl
+        inner join course_ribbons cr on cr.id = cl.course_ribbon_id
+        left outer join user_classes uc on uc.class_id = cl.id and uc.user_id = ?
+        where cl.course_id =? and cl.is_published = 1
+        union
+        select cls.id as class_id, cls.name as class_name,cls.description as class_description,
+        cls.is_published as class_published_status, cls.hero_image as class_image,
+        cls.video_url as class_video, ifnull(ucc.status, 'locked') as class_status,
+        cls.course_id as class_course_id, crr.ribbon_url as class_ribbon_url
+        from class cls
+        inner join course_ribbons crr on crr.id = cls.course_ribbon_id
+		left outer join user_classes ucc on ucc.class_id = cls.id and ucc.user_id = ?
+        where cls.course_id = ? and cls.is_published = 0]]>
+    </sql-query>
+    <sql-query id="classRibbons">
+        <![CDATA[select cr.id as id, cr.ribbon_url from course_ribbons cr
+      where cr.course_id = ? and cr.id not in
+      (select cl.course_ribbon_id from class cl where cl.course_id = ?) ]]>
+    </sql-query>
+    <sql-query id="createNewClass">
+        <![CDATA[ INSERT INTO class (name, description,course_ribbon_id,hero_image,
+        points,video_url, status,course_id, sort_order, created_date, created_user, modified_date, modified_user)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, now(), ?, now(), ?)]]>
+    </sql-query>
+    <sql-query id="updateClass">
+        <![CDATA[ UPDATE class SET name = ?, description = ?, course_ribbon_id = ?, hero_image = ?, points = ?,video_url=?,
+        status = ?, modified_date = now(), modified_user = ? WHERE id = ? ]]>
+    </sql-query>
+    <sql-query id="updateLesson">
+        <![CDATA[ UPDATE lesson SET name = ?, description = ?, hero_image = ?, points = ?,
+         modified_date = now(), modified_user = ? WHERE id = ? ]]>
+    </sql-query>
+    <sql-query id="courseDetails">
+        <![CDATA[ select * from course where id = ?]]>
+    </sql-query>
+    <sql-query id="lessonList">
+        <![CDATA[ select * from lesson where class_id = ? ]]>
+    </sql-query>
+    <sql-query id="createNewLesson">
+        <![CDATA[ INSERT INTO lesson(name, description, hero_image, points,
+       class_id, sort_order, created_date, created_user, modified_date, modified_user)
+      VALUES (?, ?, ?, ?, ?, ?, now(), ? , now(), ?) ]]>
+    </sql-query>
+    <sql-query id="surveyList">
+        <![CDATA[ select su.id as survey_id, su.name as survey_name, su.status as survey_status, cast(date(su.created_date) as char) as launch_date, su.points as survey_points, su.ismandatory as is_mandatory, su.personal_info as personal_info, su.typeformid as typeform_id,
+      (select cast(date(su.modified_date) as char) from survey sv where sv.id = su.id and sv.status = 'finished')
+      as stopped_date from survey su where su.organization_id = ? ]]>
+    </sql-query>
+    <sql-query id="postsurveyList">
+        <![CDATA[ select su.id as survey_id, su.name as survey_name, su.status as survey_status, cast(date(su.created_date) as char) as launch_date, su.points as survey_points, su.ismandatory as is_mandatory, su.personal_info as personal_info, su.typeformid as typeform_id,
+      (select cast(date(su.modified_date) as char) from survey sv where sv.id = su.id and sv.status = 'finished')
+      as stopped_date from survey su where su.id = ? ]]>
+    </sql-query>
+    <sql-query id="createNewSurvey">
+        <![CDATA[ INSERT INTO survey (name, points, ismandatory, typeformid, organization_id, created_user,
+      created_date, modified_user, modified_date, status, personal_info)
+      VALUES (?, ?, ?, ?, ?, ?, now(), ?, now(), ?, ?) ]]>
+    </sql-query>
+    <sql-query id="deleteSurvey">
+        <![CDATA[ DELETE from survey where id = ? ]]>
+    </sql-query>
+    <sql-query id="updateSurvey">
+        <![CDATA[ UPDATE survey SET name = ?, points =  ?, personal_info = ?,ismandatory = ?, typeformid = ?,
+        modified_user = ?, modified_date = now(), status = ? WHERE id = ? ]]>
+    </sql-query>
+    <sql-query id="playSurvey">
+        <![CDATA[ UPDATE survey SET modified_user = ?, modified_date = now(), status = ? WHERE id = ? ]]>
+    </sql-query>
+    <sql-query id="getSurveyDetails">
+        <![CDATA[ select su.id as survey_id, su.name as survey_name, su.status as survey_status,
+       su.points, su.isMandatory, su.typeformid, su.organization_id from survey su where su.id = ?]]>
+    </sql-query>
+    <sql-query id="createNewOrg">
+        <![CDATA[INSERT INTO organization SET ?]]>
+    </sql-query>
+    <sql-query id="userLogin">
+        <![CDATA[select u.name as username,u.email, ou.org_id, o.name as org_name,u.id as user_id from user u
+        inner join organization_users ou on ou.user_id = u.id
+        inner join organization o on o.id = ou.org_id
+        where  u.email = ? and u.password = ?]]>
+    </sql-query>
+    <sql-query id="updateClassStatus">
+        <![CDATA[UPDATE class SET status=?, is_published = 1 where id=?]]>
+    </sql-query>
+    <sql-query id="updateLessonStatus">
+        <![CDATA[UPDATE lesson SET status=? where id=?]]>
+    </sql-query>
+
+    <sql-query id="listofMaterials">
+        <![CDATA[select * from material where organization_id = ?  and type not in ("Quiz", "Reflection")]]>
+    </sql-query>
+    <sql-query id="insertMaterial">
+        <![CDATA[INSERT INTO material (title,type, hero_image, estimated_time, url, can_embed, organization_id, author, quiz_id, reflection_id, created_user, created_date, modified_user, modified_date , content)
+      VALUES (?,?,?,?,?,?,?,?,?,?,?,now(),?,now(),?)]]>
+    </sql-query>
+
+    <sql-query id="updateMaterial">
+        <![CDATA[update material set title=?, type=?, hero_image=?, estimated_time=?, url=?, author=?, modified_user=?, modified_date=now(), content=? where id=?]]>
+    </sql-query>
+    <sql-query id="updateTaskMaterial">
+        <![CDATA[update material set title=?,  hero_image=?, estimated_time=?, author=?, modified_user=?, modified_date=now(), content=? where id=?]]>
+    </sql-query>
+    <sql-query id="materialDetails">
+        <![CDATA[ select * from material where id = ?]]>
+    </sql-query>
+    <sql-query id="listofUsers">
+        <![CDATA[select u.id as userid, u.name,  u.email, CAST(DATE_FORMAT(date(u.dob),'%m/%d/%Y') as char) as dob,
+        u.gender,u.chapter,u.city,u.state,
+        (select ifnull(sum(t.points), 0) from user_tasks ut
+          inner join tasks t on t.id = ut.task_id
+          where ut.user_id = u.id and ut.status = 'completed') as task_points,
+        (select ifnull(sum(a.points), 0) from user_actions ua
+          inner join actions a on a.id = ua.action_id
+          where ua.user_id = u.id and ua.status = 'completed') as actions_points,
+        (select ifnull(sum(l.points), 0) from user_lessons ul
+          inner join lesson l on l.id = ul.lesson_id
+          where ul.user_id = u.id and ul.status = 'completed') as lesson_points,
+        (select ifnull(sum(cl.points), 0) from user_classes uc
+          inner join class cl on cl.id = uc.class_id
+          where uc.user_id = u.id and uc.status = 'completed') as class_points,
+        (select ifnull(sum(ss.points), 0) from user_surveys us
+          inner join survey ss on ss.id = us.survey_id
+          where us.user_id = u.id and us.status = 'completed') as survey_points,
+        (select ifnull(sum(uq.score), 0) from user_quiz uq
+          where uq.user_id = u.id and uq.status = 'completed') as quiz_points
+        from user u
+        inner join organization_users ou on u.id = ou.user_id
+        inner join organization o on o.id=ou.org_id
+        where ou.org_id=? and u.user_type = 'member';]]>
+    </sql-query>
+    <sql-query id="userCourseInfo">
+        <![CDATA[select co.name as course_name, co.id as course_id,co.is_supplemental, cl.name as class_name, cl.id as class_id,
+        ls.name as lesson_name, ls.id as lesson_id,ls.hero_image as lesson_image, ifnull(ul.status,'locked') as lesson_status,
+        ts.title as task_name, ts.id as task_id, ifnull(ut.status,'locked') as task_status
+        from course co
+        left outer join class cl on cl.course_id = co.id
+        left outer join lesson ls on ls.class_id = cl.id
+        left outer join tasks ts on ts.lesson_id = ls.id
+        left outer join user_tasks ut on ut.task_id = ts.id and ut.user_id = ?
+        left outer join user_lessons  ul on ul.lesson_id = ls.id and ul.user_id = ?
+        where co.organization_id = (select ou.org_id from organization_users ou where ou.user_id = ?)]]>
+    </sql-query>
+
+    <sql-query id="userProfileInfo">
+        <![CDATA[select u.id as user_id, u.email, u.name, u.gender, u.profile_pic,
+      u.profile_bio, u.user_type, u.auth0_id,(select ifnull(sum(task_points + actions_points + lesson_points + class_points + survey_points), 0) as totalPoints
+      from (select ifnull(sum(t.points),0) as task_points,
+  (select ifnull(sum(a.points), 0) from user_actions ua
+  inner join actions a on a.id = ua.action_id
+  where ua.user_id = ut.user_id and ua.status = 'completed') as actions_points,
+  (select ifnull(sum(l.points), 0) from user_lessons ul
+  inner join lesson l on l.id = ul.lesson_id
+  where ul.user_id = ut.user_id and ul.status = 'completed') as lesson_points,
+  (select ifnull(sum(cl.points), 0) from user_classes uc
+  inner join class cl on cl.id = uc.class_id
+  where uc.user_id = ut.user_id and uc.status = 'completed') as class_points,
+  (select ifnull(sum(ss.points), 0) from user_surveys us
+inner join survey ss on ss.id = us.survey_id
+where us.user_id = ut.user_id and us.status = 'completed') as survey_points
+  from user_tasks ut
+  inner join user u on u.id=ut.user_id
+  inner join tasks t on t.id=ut.task_id
+  inner join organization_users ou on ou.user_id = u.id
+where  ut.status='completed' and u.id = ?
+group by u.id) as total_points) as totalPoints
+      from user u where id = ?]]>
+    </sql-query>
+    <sql-query id="userCourseList">
+        <![CDATA[select * from(select co.id as course_id, co.name as course_name, co.description as course_description, co.is_supplemental,
+      (select count(cl.id) as count from class cl
+      where cl.is_published = 1 and cl.course_id = co.id
+      group by cl.course_id) as class_count from course co
+      where co.organization_id = (select ou.org_id from organization_users ou where ou.user_id = ?)) as course_table
+      where  course_table.class_count is not null;]]>
+    </sql-query>
+    <sql-query id="userCourses">
+        <![CDATA[select co.* from course co
+where co.organization_id = (select ou.org_id from organization_users ou where ou.user_id = ?)]]>
+    </sql-query>
+
+    <sql-query id="getAllUserCourses">
+        <![CDATA[select * from(select co.*, (select count(cl.id) as count from class cl
+where cl.status = 'published' and cl.course_id = co.id
+group by cl.course_id) as class_count from course co
+where co.organization_id = ?) as course_table  where  course_table.class_count is not null]]>
+    </sql-query>
+    <sql-query id="courseClassList">
+        <![CDATA[select * from class where course_id=? and status='published']]>
+    </sql-query>
+    <sql-query id="getUserClassDetails">
+        <![CDATA[select * from class where course_id=? and status='published']]>
+    </sql-query>
+    <sql-query id="listofUserPoints">
+        <![CDATA[ select ut.user_id, u.name, u.email, u.profile_pic, u.dob, u.profile_bio,
+        u.chapter, u.position, u.facebook, u.twitter,
+      ifnull(sum(t.points),0) as task_points,
+    (select ifnull(sum(a.points), 0) from user_actions ua
+    inner join actions a on a.id = ua.action_id
+    where ua.user_id = ut.user_id and ua.status = 'completed') as actions_points,
+    (select ifnull(sum(l.points), 0) from user_lessons ul
+    inner join lesson l on l.id = ul.lesson_id
+    where ul.user_id = ut.user_id and ul.status = 'completed') as lesson_points,
+    (select ifnull(sum(cl.points), 0) from user_classes uc
+    inner join class cl on cl.id = uc.class_id
+    where uc.user_id = ut.user_id and uc.status = 'completed') as class_points,
+    (select ifnull(sum(s.points), 0) from user_surveys us
+    inner join survey s on s.id = us.survey_id
+    where us.user_id = ut.user_id and us.status = 'completed') as survey_points,
+    (select ifnull(sum(uq.score), 0) from user_quiz uq
+     where uq.user_id = ut.user_id and uq.status = 'completed') as quiz_points,
+    (select  count(id) from user_actions ua  where ua.user_id = ut.user_id) as actions_count
+    from user_tasks ut
+    inner join user u on u.id=ut.user_id
+    inner join tasks t on t.id=ut.task_id
+    inner join organization_users ou on ou.user_id = u.id
+    where  ut.status='completed'
+    and ou.org_id = ?
+    group by u.id;
+]]>
+    </sql-query>
+
+    <sql-query id="UserCompletedMaterials">
+        <![CDATA[select m.title as material_title,  m.type as material_type, m.hero_image, m.url, m.author,
+        ut.user_id, ut.task_id, t.material_id, ut.status, ut.bookmarked
+        from user_tasks ut inner join tasks t on t.id = ut.task_id inner join material m on m.id = t.material_id
+        where m.type not in ("Quiz", "Reflection") and ut.status ='completed' and ut.user_id = ? ]]>
+    </sql-query>
+
+    <sql-query id="buglist">
+        <![CDATA[select b.id as bug_id, co.name as courcename,
+      c.name as cname, c.sort_order as class_order, ll.name  as lname, ll.id as lesson_id,
+      ll.sort_order as lesson_order,
+      t.title as tasktitle, t.sort_order as task_order,
+       b.status, CAST(DATE_FORMAT(date(b.created_date),'%m/%d/%Y %h:%i %p')  as char) as Date,
+       b.bug_description,co.id as course_id, c.id as class_id
+         from bugs b
+         inner join course co on co.id = b.course_id
+inner join class c on c.id = b.class_id
+inner join lesson ll on ll.id=b.lesson_id
+left outer join tasks t on t.id=b.task_id
+left outer join actions a on  a.id = b.action_id
+where co.organization_id=?]]>
+    </sql-query>
+
+    <sql-query id="classSortOrder">
+        <![CDATA[select sort_order from class where course_id = ? order by id desc limit 1; ]]>
+    </sql-query>
+    <sql-query id="lessonsSortOrder">
+        <![CDATA[ select sort_order from lesson where class_id = ? order by id desc limit 1; ]]>
+    </sql-query>
+    <sql-query id="taskSortOrder">
+        <![CDATA[ select sort_order from tasks where lesson_id = ? order by id desc limit 1]]>
+    </sql-query>
+    <sql-query id="getAllUserActions">
+        <![CDATA[ SELECT ua.user_id, ua.action_id, ua.action_response,ua.status, lss.name as lesson_name, lss.id as lessson_id,
+      act.description as task_description, act.points as points, cls.name as class_name , cls.id as class_id
+      FROM user_actions ua
+      inner join actions act on act.id = ua.action_id
+      inner join lesson lss on lss.id = act.lesson_id
+      left outer join class cls on cls.id = lss.class_id
+      where ua.user_id= ?;]]>
+    </sql-query>
+
+    <sql-query id="getClassPageDetails">
+        <![CDATA[ select cl.name as class_name, cl.id as class_id,cl.description as class_description,co.is_supplemental,
+      cl.sort_order as class_order, ifnull(uc.status, 'locked') as class_status, cl.points as class_total_points,cl.hero_image as class_image_url
+      from class cl
+      inner join course co on co.id=cl.course_id
+      left outer join user_classes uc on uc.class_id = cl.id and uc.user_id = ? where cl.id= ?; ]]>
+    </sql-query>
+    <sql-query id="getClassPageLessons">
+        <![CDATA[ select lss.id as lesson_id, lss.name as lesson_name,lss.sort_order as lesson_order,lss.description as lesson_description,lss.sort_order as lesson_order,
+      lss.points as lesson_total_points, ifnull(ul.status,'locked') as lesson_status,
+      tss.title as task_name, tss.id as task_id,tss.points as task_points,tss.sort_order as task_order,tss.description as task_description,
+      ifnull(utt.status, 'locked') as task_status, utt.bookmarked as bookmarked, (select act.id from actions act  where act.lesson_id = lss.id) as action_id,(select act.description from actions act  where act.lesson_id = lss.id) as action_description,
+      (select ifnull(ua.status,'locked') as action_status from actions act
+      left outer join user_actions ua on ua.action_id = act.id and ua.user_id = ?
+      where act.lesson_id = lss.id) as action_status,
+      mt.type as material_type, mt.title as material_title, mt.id as material_id, mt.url as material_url, mt.hero_image as material_image, mt.can_embed as material_can_embed,
+      rf.question as reflection_question, rf.id as reflection_id
+      from lesson lss
+      inner join tasks tss on tss.lesson_id = lss.id
+      left outer join material mt on mt.id = tss.material_id
+      left outer join reflection rf on rf.id = mt.reflection_id
+      left outer join user_lessons ul on ul.lesson_id = lss.id and ul.user_id = ?
+      left outer join user_tasks utt on utt.task_id = tss.id and utt.user_id = ?
+      where lss.class_id = ? order by tss.id asc;]]>
+    </sql-query>
+    <sql-query id="checkUserSurveystatus">
+        <![CDATA[ select ss.id as survey_id, ss.points, ss.ismandatory, ss.typeformid as typeform_url, ss.name as survey_name,
+        case us.status when 'completed' then 'true' else 'false' end as 'survey_taken'
+        from survey ss
+        left outer join user_surveys us on us.survey_id = ss.id and us.user_id = ?
+        where ss.status = 'started' and ss.organization_id = (select ou.org_id from organization_users ou where ou.user_id = ?) ]]>
+    </sql-query>
+    <sql-query id="completeUserSurvey">
+        <![CDATA[ INSERT INTO user_surveys
+      (`user_id`, `survey_id`, `status`, `created_user`, `created_date`, `modified_user`, `modified_date`)
+      VALUES(?, ?, ?, ?, now(), ?, now());]]>
+    </sql-query>
+    <sql-query id="insertTaskComplete">
+        <![CDATA[ INSERT INTO user_tasks
+        (`user_id`, `task_id`, `status`,`bookmarked`, `created_date`,`created_user`, `modified_date`, `modified_user`)
+        VALUES (?, ?, ?, ?, now(), ?, now(), ?);]]>
+    </sql-query>
+    <sql-query id="updateTaskComplete">
+        <![CDATA[UPDATE user_tasks SET  status = ?, bookmarked = ?,
+      completion_date = now(),  modified_date = now(), modified_user = ? WHERE user_id = ? and task_id = ?]]>
+    </sql-query>
+
+    <sql-query id="updateUserActions">
+        <![CDATA[UPDATE user_actions SET status='completed',completion_date=now(),modified_user=?,modified_date=now(),action_response=?
+      WHERE user_id=? and action_id=?;]]>
+    </sql-query>
+
+    <sql-query id="insertUnlockedAction">
+        <![CDATA[INSERT INTO user_actions
+      (user_id, action_id, status, action_response, created_date, created_user,
+      modified_date, modified_user) VALUES (?, ?, ?, '', now(), ?, now(), ?)]]>
+    </sql-query>
+    <sql-query id="verifyuserExistence">
+        <![CDATA[ select us.name,us.id as user_id, us.email, us.auth0_id, us.gender, us.profile_pic,
+        us.profile_bio, us.dob, us.address, us.zip_code, us.phone, us.state,
+        us.city, us.chapter, us.position, us.twitter, us.facebook, ou.org_id
+        from user us inner join organization_users ou on ou.user_id = us.id
+        where us.auth0_id = ? and ou.org_id  = ? ]]>
+    </sql-query>
+    <sql-query id="insertNewMemberUser">
+        <![CDATA[ INSERT INTO user (name, auth0_id, email, gender, profile_pic,
+      user_type, created_date, created_user, modified_date, modified_user)
+      VALUES (?, ?, ?, ?, ?, 'member', now(), 1, now(), 1)]]>
+    </sql-query>
+    <sql-query id="insertIntoOrgUser">
+        <![CDATA[ INSERT INTO organization_users (org_id, user_id, isadmin) VALUES (?, ?, 0)]]>
+    </sql-query>
+    <sql-query id="insertUserReflection">
+        <![CDATA[ INSERT INTO user_reflection (user_id, reflection_id, response) VALUES (?, ?, ?)]]>
+    </sql-query>
+    <sql-query id="unlockNextLesson">
+        <![CDATA[ INSERT INTO user_lessons (`user_id`,`lesson_id`, `status`, `created_user`, `created_date`, `modified_user`, `modified_date`)
+      VALUES(?, ?, ?, ?, now(), ?, now())]]>
+    </sql-query>
+    <sql-query id="updateCurrentLesson">
+        <![CDATA[ UPDATE user_lessons SET status = 'completed', modified_user = ?,
+        modified_date = now() WHERE user_id = ? and lesson_id = ? ]]>
+    </sql-query>
+    <sql-query id="verifyClassComplete">
+        <![CDATA[ select ifnull(ul.status,'locked') as lesson_status from lesson lss
+      left outer join user_lessons ul on ul.lesson_id = lss.id  and ul.user_id = ?
+      where lss.class_id = ? ]]>
+    </sql-query>
+    <sql-query id="updateCurrentUserClass">
+        <![CDATA[ UPDATE user_classes SET status = ?, modified_user = ?, modified_date = now() WHERE user_id = ? and class_id = ?; ]]>
+    </sql-query>
+    <sql-query id="updateBugs">
+        <![CDATA[UPDATE bugs SET status=? WHERE id=?]]>
+    </sql-query>
+    <sql-query id="getQuizDetails">
+        <![CDATA[ select ts.material_id, qz.id as quiz_id,qq.id as quiz_question_id, qq.question as question, qq.answer, qq.options
+      from tasks ts
+      inner join material ml on ml.id = ts.material_id
+      left outer join quiz qz on qz.id = ml.quiz_id
+      left outer join quiz_questions qq on qq.quiz_id = qz.id
+      where ts.id = ?]]>
+    </sql-query>
+    <sql-query id="saveQuizDetails">
+        <![CDATA[ INSERT INTO user_quiz (user_id, quiz_id, status, score) VALUES (?,?,?,?)]]>
+    </sql-query>
+    <sql-query id="OrgQuizzes">
+        <![CDATA[ SELECT q.answer, m.id as material_id, q.options, q.question, q.quiz_id, q.id as quiz_question_id FROM material m LEFT JOIN quiz_questions q ON m.quiz_id = q.quiz_id WHERE m.organization_id = ? and m.type = 'Quiz' and NOT (m.quiz_id <=> NULL) and NOT (q.quiz_id <=> NULL) ]]>
+    </sql-query>
+    <sql-query id="unlockCurrentClass">
+        <![CDATA[ INSERT INTO user_classes (user_id, class_id, status, created_user, created_date, modified_user, modified_date)
+      VALUES(?, (select class_id from lesson where id = ?), 'started', ?, now(), ?, now()) ]]>
+    </sql-query>
+    <sql-query id="getReflectionDetails">
+        <![CDATA[ select ts.material_id, re.id as reflection_id, re.question
+      from tasks ts
+      inner join material ml on ml.id = ts.material_id
+      left outer join reflection re on re.id = ml.reflection_id
+      where ts.id = ?; ]]>
+    </sql-query>
+    <sql-query id="editReflection">
+        <![CDATA[ UPDATE reflection SET question=? WHERE lesson_id=? ]]>
+    </sql-query>
+    <sql-query id="OrgReflections">
+        <![CDATA[ SELECT re.question, m.id as material_id, re.id as reflection_id FROM material m
+        LEFT JOIN reflection re ON m.reflection_id = re.id WHERE m.organization_id = ? and m.type = 'Reflection'
+         and NOT (m.reflection_id <=> NULL) ]]>
+    </sql-query>
+    <sql-query id="getTaskLessonDetails">
+        <![CDATA[select ts.id as task_id, ls.id as lesson_id, cls.id as class_id,
+     co.id as course_id from tasks ts inner join lesson ls on ls.id = ts.lesson_id
+     inner join class cls on cls.id = ls.class_id
+     inner join course co on co.id = cls.course_id
+      where ts.id = ? ]]>
+    </sql-query>
+
+    <sql-query id="createNewBug">
+        <![CDATA[ INSERT INTO bugs (course_id, class_id, lesson_id, task_id, action_id, status, modified_date, modified_user, created_date, created_user, bug_description)
+    VALUES (?, ?, ?, ?, ?, ?, now(), ?, now(), ?, ?)]]>
+    </sql-query>
+
+    <sql-query id="classStatusNotificaton">
+        <![CDATA[ select o.id as organization_id, o.name as organization_name, co.name as course_name, co.id as course_id,
+cls.id as class_id, cls.name as class_name, ifnull(uc.status,'locked') as class_status,
+u.name as user_name,u.id as user_id
+from class cls
+inner join course co on co.id = cls.course_id
+inner join organization o on o.id = co.organization_id
+left outer join user_classes uc on uc.class_id = cls.id  and uc.user_id = ?
+left outer join user u on u.id = ?
+where cls.id = ? ]]>
+    </sql-query>
+
+    <sql-query id="updatedBugResult">
+        <![CDATA[select b.id as bug_id, co.name as courcename,
+      c.name as cname, c.sort_order as class_order, ll.name  as lname, ll.id as lesson_id, ll.sort_order as lesson_order, t.title as tasktitle, t.sort_order as task_order, b.status,
+      CAST(DATE_FORMAT(date(b.created_date),'%m/%d/%Y %h:%i %p')  as char) as Date,
+      b.bug_description from bugs b
+      inner join course co on co.id = b.course_id
+      inner join class c on c.id = b.class_id
+      inner join lesson ll on ll.id=b.lesson_id
+      left outer join tasks t on t.id=b.task_id
+      left outer join actions a on  a.id = b.action_id
+      where b.id = ?]]>
+    </sql-query>
+
+    <sql-query id="updateBookmarkingStatus">
+        <![CDATA[UPDATE user_tasks SET  bookmarked = ?
+       WHERE user_id = ? and task_id = ?]]>
+    </sql-query>
+    <sql-query id="insertNotifications">
+        <![CDATA[INSERT INTO notifications
+      (org_id, user_id, description, created_date, created_user) VALUES (?, ?, ?, now(), ?)]]>
+    </sql-query>
+
+    <sql-query id="getNotificationsList">
+        <![CDATA[select nt.id as notification_id, nt.description, ifnull(un.status, 0) as notification_status,nt.created_date as notification_date
+from notifications nt
+left outer join user_notifications un on un.notification_id = nt.id and un.user_id = ?
+where  nt.user_id not in (?)
+and nt.org_id = (select ou.org_id from organization_users ou where ou.user_id = ?)]]>
+    </sql-query>
+    <sql-query id="getOrgDetails">
+        <![CDATA[select og.id as org_id, og.content, og.image_url, og.button, og.name as organization_name, og.domain,  og.primary_color, og.logo_url, og.auth0domain, og.auth0clientid
+      from organization og where og.domain = ?]]>
+
+    </sql-query>
+    <sql-query id="actionNotifications">
+        <![CDATA[select ac.id as action_id, ac.description , ac.points, ua.status as action_status,
+u.id as user_id, u.name as user_name, ou.org_id as organization_id
+from actions ac
+left outer join user_actions ua on ua.action_id = ac.id and ua.user_id = ?
+left outer join user u on u.id = ua.user_id
+left outer join organization_users ou on ou.user_id = u.id
+where ac.id = ?]]>
+    </sql-query>
+
+
+    <sql-query id="createNewExtracts">
+        <![CDATA[INSERT INTO extracts (extracts_location) VALUES (?)]]>
+    </sql-query>
+
+
+    <sql-query id="listofextracts">
+        <![CDATA[select extracts_location from extracts where id=?]]>
+    </sql-query>
+
+    <sql-query id="updateUserDetails">
+        <![CDATA[ UPDATE user SET  gender = ?, dob = ?, profile_pic = ?, profile_bio = ?,
+      address = ?, city = ?, state = ?, zip_code = ?, phone = ?, chapter = ?, position = ?, twitter = ?, facebook = ?, modified_date = now(),
+      modified_user = ? WHERE id = ?]]>
+    </sql-query>
+    <sql-query id="updateNotificationStatus">
+        <![CDATA[INSERT INTO user_notifications (`notification_id`, `user_id`,`status`)
+        VALUES (? , ? , true)]]>
+    </sql-query>
+
+    <sql-query id="getUserRibbons">
+        <![CDATA[select cls.name class_name, cr.ribbon_url, uc.status as class_status from class cls
+inner join course co on co.id = cls.course_id
+inner join course_ribbons cr on cr.id = cls.course_ribbon_id and co.id = cr.course_id
+left outer join user_classes uc on uc.class_id = cls.id and uc.user_id = ?
+where co.organization_id = (select ou.org_id from organization_users ou where ou.user_id = ?)
+and cls.status = 'published']]>
+    </sql-query>
+    <sql-query id="totalPointsUser">
+        <![CDATA[ select ifnull(sum(task_points + actions_points + lesson_points + class_points + survey_points + quiz_points), 0) as totalPoints
+        from (select ifnull(sum(t.points),0) as task_points,
+    (select ifnull(sum(a.points), 0) from user_actions ua
+    inner join actions a on a.id = ua.action_id
+    where ua.user_id = ut.user_id and ua.status = 'completed') as actions_points,
+    (select ifnull(sum(l.points), 0) from user_lessons ul
+    inner join lesson l on l.id = ul.lesson_id
+    where ul.user_id = ut.user_id and ul.status = 'completed') as lesson_points,
+    (select ifnull(sum(cl.points), 0) from user_classes uc
+    inner join class cl on cl.id = uc.class_id
+    where uc.user_id = ut.user_id and uc.status = 'completed') as class_points,
+    (select ifnull(sum(ss.points), 0) from user_surveys us
+     inner join survey ss on ss.id = us.survey_id
+     where us.user_id = ut.user_id and us.status = 'completed') as survey_points,
+     (select ifnull(sum(uq.score), 0) from user_quiz uq
+     where uq.user_id = ut.user_id and uq.status = 'completed') as quiz_points
+    from user_tasks ut
+    inner join user u on u.id=ut.user_id
+    inner join tasks t on t.id=ut.task_id
+    inner join organization_users ou on ou.user_id = u.id
+    where  ut.status='completed' and u.id = ?
+    group by u.id) as total_points]]>
+    </sql-query>

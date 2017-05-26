@@ -1,0 +1,24 @@
+#toast-container {
+	.toast {
+		background-color: white;
+	    border: 2px solid color(success);
+	    box-shadow: none;
+	    opacity: 1;
+	    background-size: 20px !important;
+		&.toast-success {
+		    border: 2px solid color(success);
+		    color: color(success);
+		    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAsCAMAAADigU7NAAAAyVBMVEUAAAAAAAAAgAAAqlUAv0AAmWYStm0KwnAQv3gOv3EOwXUNw3IUxHYTv3MSwnMQxXUQwXgTwXgUxHcTw3cSxHYUxHcTw3gTw3gTxHcTxXcTxXgTxHcTxHgTxHcTxXgTxHcTxHgSxHcUxXgUxHYTxXcTxHcTxHgTxHcTxXgTxHcTxHgTxHcUxXgUxXcUxHgUxHcUxXgTxXcTxHcTxHcTxHcTxXcTxHgTxHgTxHcUxXcTxHgTxXcTxXgTxHcUxHgUxHcUxXgTxXgUxXj8FjgZAAAAQnRSTlMAAQIDBAUOGSAkJSYnKCowMUJaXmN0d4SFkJGSk5SVlpeYmZudn6ChoqOkpaanqKmqq6ytrq+xxsvN4uPk5ebn9f1XUWDFAAAA6klEQVR4Ae3MR1LDUBAG4ZH0RM45g4NNsAFjMDnA3P9QuOi1VPDPioLef22BJjcfNiYCfvrJ3bcC/tnHPQa994P+fSnol3+pn/nr/iXi//1shZ9aXwz5lQ/3q1L3du/jRqXsGfhNUr2t+lfDVOtfK73ZNodBEjztcrgoBE/7HPoVh7k6T4cceoXoLWtwOM0Fz6HJ4TgXPIcWh04ueA5tDu1M82Z5h0MrEzyHLodmJngOJxyOONj82w88hzMOB4KnosdhT/EczjnsKJ7DJYeu4CkNOEiewzDgOVzrnspRwHO4DXgOa3eNBftenzQecxumDNreAAAAAElFTkSuQmCC)!important;
+		}
+		&.toast-error {
+			border: 2px solid color(error);
+		    color: color(error);
+		    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAMAAACdt4HsAAAAHlBMVEUAAAD/AAD/MzP/MzP/QED/QED/QUH/QUH/QkL/QkKH3wddAAAACXRSTlMAAwoPV2fDyNHlETqlAAAAvklEQVR4Ae2XOxLDMAgFsf7c/8JJOkjH29Jy55m3O4mEZLBnrDObCU+bZ43Hhn+f3et83z9y2PKqIfK+7HjVEHk/Nj0YyrxPazsYyvxu8aXX+f73KvCCIcUFQwoLhhQVDCkoGFJMMKSQYEgRwUAD9CfSRaLbRAuFlio9LPS40guDXlkCnyCJj4bIS4bAAwP4eAYeGCLPBfwv8EXk28gKCZSyxL+qf7j9w+0fbv9w+wc8dOGxDw+eePTFwzcd/z+hTCX5x1AexAAAAABJRU5ErkJggg==)!important;
+		}
+		&.toast-warning {
+			border: 2px solid color(warning);
+		    color: color(warning);
+		    background-image: url(data:image/png;base64,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)!important;
+		}
+	}
+}

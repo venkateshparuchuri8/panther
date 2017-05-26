@@ -1,0 +1,261 @@
+.classlist-wrapper {
+  background-color: map-get($colors, white);
+  border-right: 1px solid lighten(map-get($colors,lightgray), 15%);
+  min-height: 100vh;
+  width: 400px;
+  display: inline-block;
+}
+
+.classlist-wrapper.is-hidden {
+  @media screen and (max-width: $tablet) {
+    display: none;
+  }
+}
+
+.classlist-cover {
+  box-shadow: 2px 7px 26px -7px rgba(4,30,66,0.4);
+  background-image: linear-gradient(rgba(4,29,65,0.10) 0%, #041E42 100%);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 160px;
+  position: relative;
+}
+
+.classlist-cover-name {
+  position: absolute;
+  bottom: 10px;
+  left: 20px;
+  color: white;
+
+  h1 {
+    font-size: 18px;
+  }
+  label {
+    text-transform: uppercase;
+    opacity: 0.6;
+    font-size: 12px;
+  }
+}
+
+.classlist-completed {
+  background-color: color(primary);
+  color: map-get($colors, white);
+  text-align: center;
+  padding: 1em;
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+  h6 {
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 1px;
+  }
+}
+
+.classlist-lesson {
+  padding: 30px 22px;
+  border-bottom: 1px solid lighten(map-get($colors, lightgray), 15%);
+
+  h1 {
+    font-size: 18px;
+    margin-bottom: 0.5em;
+  }
+
+  .is-locked {
+    opacity: 0.4;
+  }
+}
+
+.classlist-lesson.is-active {
+  background-color: color(primary-light-55);
+}
+
+
+
+.lesson-tasklist {
+  padding-left: 1.1em;
+  font-size: 16px;
+
+  li {
+    cursor: pointer;
+    svg {
+      width: 14px;
+      height: 14px;
+      fill: map-get($colors, navy);
+    }
+    svg path {
+      fill: map-get($colors, navy);
+    }
+    margin-bottom: 0.3em;
+    padding: 3px 0px;
+    font-size: 16px;
+    line-height: 22px;
+
+    b {
+      margin: 0px 5px;
+    }
+  }
+
+  li.is-active, li.completed {
+    span > svg {
+      path {
+        fill: color(primary);
+      }
+    }
+  }
+  li.is-active {
+    color: color(primary);
+  }
+}
+
+.classroom-wrapper {
+  min-height: 100vh;
+  flex: 1 auto;
+}
+
+.classroom-wrapper.is-completed {
+  background-color: color(primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  label {
+    text-transform: uppercase;
+    opacity: 0.5;
+    color: white;
+    font-weight: 500;
+    margin-bottom: 0.5em;
+  }
+
+  h1 {
+    font-size: 20px;
+    color: white;
+    font-weight: 500;
+    margin-bottom: 0.5em;
+  }
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.classroom-header {
+  border-bottom: 1px solid lighten(map-get($colors,lightgray), 15%);
+  height: 160px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+
+  h1 {
+    font-size: 26px;
+  }
+
+  p {
+    opacity: 0.4;
+    font-size: 16px;
+  }
+
+  label {
+    text-transform: uppercase;
+    opacity: 0.6;
+    font-size: 12px;
+  }
+
+  .classroom-header-completed {
+    background-color: color(primary);
+    color: white;
+    padding: 2px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    position: absolute;
+    bottom: -10px;
+    letter-spacing: 1px;
+
+    span {
+      margin-right: 0.5em;
+    }
+  }
+}
+
+.classroom-header.is-completed {
+  box-shadow: 2px 7px 26px -7px rgba(4,30,66,0.4);
+  border-bottom: 0;
+  background-color: color(primary);
+  color: white;
+}
+
+.classroom-content {
+  text-align: center;
+  padding: 20px 10px;
+}
+
+.classroom-content-title {
+  font-size: 18px;
+  margin-bottom: 2em;
+}
+
+.classroom-content-material {
+  cursor: pointer;
+  height: 350px;
+  display: flex;
+  color: white;
+  justify-content: center;
+  align-items: center;
+  background-image: linear-gradient(rgba(4,29,65,0.10) 0%, #041E42 100%);
+  box-shadow: 2px 7px 26px -7px rgba(4,30,66,0.4);
+  position: relative;
+  border-radius: 3px;
+
+  .bookmark {
+    position: absolute;
+    right: 30px;
+    top: 20px;
+  }
+
+  .time {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    display: flex;
+  }
+
+  @media screen and (max-width: $desktop-lg) {
+    height: 420px;
+  }
+
+  @media screen and (max-width: $desktop-md) {
+    height: 350px;
+  }
+
+}
+
+.classroom-content-material.is-completed {
+  border-bottom: 10px solid color(primary);
+}
+
+.classroom-content-material.is-locked {
+  opacity: 0.4;
+}
+
+.classroom-content-material-completed {
+  @extend .classroom-content-material;
+  background-image: none;
+  background-color: map-get($colors, white);
+  border: 1px solid color(primary);
+  color: inherit;
+  opacity: 0.8;
+
+  h2 {
+    font-weight: bold;
+  }
+}
+
+.mt-65 {
+  margin-top: -65px;
+}

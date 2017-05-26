@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 41 (35326) - http://www.bohemiancoding.com/sketch -->
+    <title>article</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="article" fill="#FFFFFF">
+            <path d="M3.37777778,0.124444444 L3.37777778,4.51555556 L0,4.51555556 L0,11.8933333 C0,13.7066667 1.47555556,15.1822222 3.28888889,15.1822222 L4.08888889,15.1822222 L4.26666667,15.1822222 L16,15.1822222 L16,0.124444444 L3.37777778,0.124444444 Z M0.888888889,11.7866667 L0.888888889,5.38666667 L3.37777778,5.38666667 L3.37777778,7.64444444 L1.77777778,7.64444444 L1.77777778,8.53333333 L3.37777778,8.53333333 L3.37777778,10.3111111 L1.77777778,10.3111111 L1.77777778,11.2 L3.37777778,11.2 L3.37777778,14.2755556 C2.00888889,14.2755556 0.888888889,13.1733333 0.888888889,11.7866667 Z M15.1111111,14.2755556 L4.26666667,14.2755556 L4.26666667,5.20888889 L4.26666667,1.01333333 L15.1111111,1.01333333 L15.1111111,14.2755556 Z" id="Shape"></path>
+            <rect id="Rectangle-path" x="5.33333333" y="4.08888889" width="8.88888889" height="0.888888889"></rect>
+            <rect id="Rectangle-path" x="5.33333333" y="6.75555556" width="8.88888889" height="0.888888889"></rect>
+            <rect id="Rectangle-path" x="5.33333333" y="9.42222222" width="8.88888889" height="0.888888889"></rect>
+            <rect id="Rectangle-path" x="5.33333333" y="12.0888889" width="8.88888889" height="0.888888889"></rect>
+        </g>
+    </g>
+</svg>

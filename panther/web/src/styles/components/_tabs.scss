@@ -1,0 +1,29 @@
+.react-tabs [role=tablist] {
+  border-bottom: 1px solid map-get($colors, lightgray);
+  font-weight: 500;
+  margin-bottom: 34px;
+
+  [aria-selected=true] {
+    background-color: transparent;
+    border-color: transparent;
+    border-bottom: 2px solid color(primary);
+    color: color(primary);
+  }
+
+}
+
+.react-tabs [role=tab]:focus {
+  box-shadow: none;
+  outline: none;
+  border-bottom: 0;
+}
+
+.react-tabs [role=tab] {
+  font-size: 20px;
+  line-height: 29px;
+  &.user-tab,
+  &.settings-tab {
+    font-size: 20px;
+    line-height: 24px;
+  }
+}

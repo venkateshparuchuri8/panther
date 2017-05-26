@@ -1,0 +1,163 @@
+//PREVIEW THUMBNAIL
+.thumbnail-container {
+  position: relative;
+  display: inline-block;
+}
+
+.thumbnail {
+  height :125px;
+  width :150px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: map-get($colors, lightgray);
+  background-position: center;
+  cursor :pointer;
+  position: relative;
+}
+
+.thumbnail-remove {
+  background-image: url('../assets/icon-delete-circle.svg');
+  width: 20px;
+  height: 20px;
+  display: block;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+// THUMBNAIL FOR STOCK IMAGES
+.stock-thumbnail {
+  width: 125px;
+  height: 77px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: inline-block;
+  margin-right: 0.5em;
+  position: relative;
+  cursor: pointer;
+}
+
+.stock-thumbnail.is-selected {
+  border: 2px solid color(primary);
+}
+
+.stock-thumbnail-check {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+}
+
+// MATERIAL THUMBNAILS
+
+.material-add {
+  height: 225px;
+  width: 225px;
+  border: 1px solid rgba(200,201,199,0.5);
+  text-align: center;
+  display: flex;
+  align-content: center;
+  a {
+    color: inherit;
+    font-weight: bold;
+    align-self: center;
+    flex-grow: 1;
+    font-size: 16px;
+    line-height: 19px;
+    &:hover {
+      text-decoration: none;
+    }
+    span {
+      font-size: 32px;
+      font-weight: 400;
+      margin-top: 10px;
+      display: block;
+    }
+  }
+}
+
+.material-thumbnail {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  background-image: linear-gradient(rgba(4,29,65,0.10) 0%, #041E42 100%);
+  background-size: cover;
+  background-position: center;
+  width: 225px;
+  height: 225px;
+  margin-right: 0.5em;
+  margin-bottom: 0.5em;
+  box-shadow: 2px 7px 26px -7px rgba(4,30,66,0.4);
+  transition: box-shadow 0.4s ease;
+  border-radius: 3px;
+  img {
+    box-shadow: none;
+  }
+
+  &.ribbon {
+    width: 96px;
+    height: 30px;
+    border-radius: 0px;
+  }
+
+}
+
+.material-list .material-thumbnail,
+.material-list .material-add {
+  margin: 15px;
+}
+
+.material-thumbnail.is-selected {
+  border: 2px solid color(primary);
+}
+
+.material-thumbnail-check {
+  position: absolute;
+  right: 10px;
+  top: 5px;
+}
+
+.material-thumbnail-name {
+  position: absolute;
+  color: white;
+  z-index: 1;
+  bottom: 10px;
+  left: 10px;
+  font-size: 14px;
+  line-height: 22px;
+  text-shadow: 1px 1px lighten(black, 10%);
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.material-thumbnail-icon {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  z-index: 2;
+}
+.material-edit-icon {
+  position: absolute;
+  top: 3px;
+  right: 5px;
+ }
+
+
+ // RIBBON THUMBANIL
+.r-1 {
+  display: inline-block;
+  text-align: center;
+  margin-right: 1em;
+}
+
+.r-1-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.r-1-image {
+  height: 30px;
+  width: 96px;
+  background-color: map-get($colors, lightgray);
+  background-size: cover;
+  background-repeat: no-repeat;
+}

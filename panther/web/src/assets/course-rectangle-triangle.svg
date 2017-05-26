@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="24px" height="10px" viewBox="0 0 24 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 41 (35326) - http://www.bohemiancoding.com/sketch -->
+    <title>Triangle</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="UI-1920px" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Dashboard---Ribbons---Overview---1920px" transform="translate(-328.000000, -437.000000)" fill="#14C578">
+            <g id="Overview" transform="translate(0.000000, 438.000000)">
+                <path d="M339.231091,-0.489741095 C339.655748,-0.848555789 340.346195,-0.846913979 340.768909,-0.489741095 L352,9 L328,9 L339.231091,-0.489741095 Z" id="Triangle"></path>
+            </g>
+        </g>
+    </g>
+</svg>

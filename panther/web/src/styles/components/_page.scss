@@ -1,0 +1,27 @@
+.main {
+  padding: 109px 0 80px 99px;
+  .main-inner {
+  	padding-left: 40px;
+  }
+  &.main-sidebar {
+    padding-top: 69px;
+    padding-bottom: 0px;
+  }
+}
+
+.main-page-header {
+  display: flex;
+  align-items: center;
+}
+
+.main-page-title {
+  font-size: 26px;
+  line-height: 31px;
+  margin-right: 15px;
+}
+
+.main-page-description {
+  font-size: 16px;
+  line-height: 22px;
+  color: map-get($colors, darkgray);
+}

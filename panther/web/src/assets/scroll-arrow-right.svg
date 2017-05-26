@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="90px" height="92px" viewBox="0 0 90 92" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 41 (35326) - http://www.bohemiancoding.com/sketch -->
+    <title>scroll arrow</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <circle id="path-1" cx="26" cy="26" r="26"></circle>
+        <filter x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="10" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.0156862745   0 0 0 0 0.117647059   0 0 0 0 0.258823529  0 0 0 0.0956465127 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="scroll-arrow" transform="translate(19.000000, 18.000000)">
+            <g transform="translate(0.000000, 0.000000)">
+                <g id="Oval">
+                    <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                    <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+                </g>
+                <g id="nav/ArrowRight/blueleft" transform="translate(22.000000, 18.000000)" fill="#041E42">
+                    <path d="M0.15187948,0.841746316 L7.74165718,8 C7.74173955,7.99991267 0.15187948,15.1582537 0.15187948,15.1582537 C-0.0746368069,15.3718912 -0.0443036543,15.6937133 0.219630473,15.8770635 C0.4835646,16.0604136 0.881153217,16.0358609 1.1076695,15.8222234 L8.69769077,8.66374002 C9.10077813,8.2836649 9.10077813,7.7163351 8.69764047,7.33621254 L1.1076695,0.177776566 C0.881153217,-0.0358609232 0.4835646,-0.0604136349 0.219630473,0.122936549 C-0.0443036543,0.306286733 -0.0746368069,0.628108828 0.15187948,0.841746316 Z" id="Stroke"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

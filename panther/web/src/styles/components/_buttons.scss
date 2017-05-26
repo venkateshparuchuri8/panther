@@ -1,0 +1,105 @@
+.btn {
+  height: 30px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.btn-sm {
+  padding: 0.15rem 1.3rem;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.btn-lg {
+  padding: .5rem 1rem;
+  font-size: 12px;
+}
+
+.btn-primary,
+.btn-primary.disabled,
+.btn-primary:disabled {
+  background-color: color(primary);
+  border-color: color(primary);
+
+  &:hover {
+    background-color: color(primary);
+    border-color: color(primary);
+    box-shadow: 2px 7px 26px -7px color(primary-light-20);
+  }
+}
+
+.btn.disabled,
+.btn:disabled {
+
+  opacity: 0.5;
+}
+
+
+.btn-outline-primary,
+.btn-outline-primary.disabled {
+  border-color: color(primary);
+  color: color(primary);
+
+  &:hover {
+    background-color: transparent;
+    border-color: color(primary);
+    color: color(primary);
+    opacity: 0.6;
+  }
+}
+
+.btn-ternary {
+  background-color: map-get($colors, darkgray);
+  border-color: map-get($colors, darkgray);
+  color: white;
+
+  &:hover {
+    background-color: map-get($colors, darkgray);
+    border-color: map-get($colors, darkgray);
+    box-shadow: 2px 7px 26px -7px lighten(map-get($colors,darkgray), 20%);
+    color: white;
+  }
+}
+
+.btn-cancel {
+  color: map-get($colors, darkgray);
+  background-color: transparent;
+
+  &:hover {
+    text-decoration: none;
+    color: map-get($colors, darkgray);
+  }
+}
+
+.btn-filter {
+  background-color: transparent;
+  border: 1px solid map-get($colors, navy);
+
+  &:hover {
+    background-color: map-get($colors, navy);
+    color: white;
+  }
+}
+
+.btn-start {
+  display: flex;
+  align-items: center;
+
+  svg {
+    fill: white !important;
+    width: 14px;
+    height: 14px;
+    margin-right: 0.3em;
+    margin-top: 0.1em;
+  }
+
+}
+
+.form-group {
+  button {
+    &.btn-short {
+      height: 30px;
+    }
+  }
+}
